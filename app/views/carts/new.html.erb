@@ -1,0 +1,31 @@
+<!-- <h1>New Cart</h1>
+
+<é%= render 'form', cart: @cart %>
+
+<é%= link_to 'Back', carts_path %> -->
+
+<%= form_tag carts_path do %>
+  <article>
+    <% if flash[:error].present? %>
+      <div id="error_explanation">
+        <!-- <p><&%= flash[:error] %></p> -->
+      </div>
+    <% end %>
+    <label class="amount">
+
+      <%@in_checkout.each do |checkout|%>
+        <% if(checkout.user_id == current_user.id) %>
+        <% @totaux = checkout.total_price %>
+        <%end%>
+      <%end%>
+      "<%=current_user.prenom%>" vous devez payer : <%=@totaux%> MGA
+    </label>
+  </article>
+
+  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+          data-description="CHAT"
+          data-amount="<%=@totaux%>"
+          data-currency="MGA"
+          data-locale="auto"></script>
+<% end %>
